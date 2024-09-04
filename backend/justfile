@@ -1,0 +1,12 @@
+default:
+  just --list
+
+format:
+  uv run ruff format
+
+docker:
+  docker build -t fastapi-app .
+  docker run -p 8000:8000 fastapi-app
+
+serve:
+  uv run fastapi run main.py

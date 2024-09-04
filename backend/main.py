@@ -40,7 +40,9 @@ UPLOAD_DIR = "split_images"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 
-def split_image(image_bytes, rows: int, cols: int, original_filename: str, user_id: str) -> list[dict]:
+def split_image(
+    image_bytes, rows: int, cols: int, original_filename: str, user_id: str
+) -> list[dict]:
     """
     Split an image into a grid of rows x cols sprites
 
