@@ -40,13 +40,6 @@ UPLOAD_DIR = "split_images"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 
-def detect_grid(image_bytes):
-    # This is a placeholder function. In a real-world scenario,
-    # you'd implement more sophisticated image analysis here.
-    # For now, we'll just return a default 2x2 grid
-    return 2, 2
-
-
 def split_image(image_bytes, rows: int, cols: int, original_filename: str, user_id: str) -> list[dict]:
     """
     Split an image into a grid of rows x cols sprites
@@ -84,13 +77,6 @@ def split_image(image_bytes, rows: int, cols: int, original_filename: str, user_
             sprites.append({"row": i + 1, "col": j + 1, "filename": filename})
 
     return sprites
-
-
-@app.post("/upload")
-async def upload_image(image: UploadFile = File(...)) -> dict[str, int]:
-    contents = await image.read()
-    rows, cols = detect_grid(contents)
-    return {"rows": rows, "cols": cols}
 
 
 @app.options("/split")
