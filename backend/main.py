@@ -47,7 +47,13 @@ def detect_grid(image_bytes):
     return 2, 2
 
 
-def split_image(image_bytes, rows, cols, original_filename, user_id):
+def split_image(image_bytes, rows: int, cols: int, original_filename: str, user_id: str) -> list[dict]:
+    """
+    Split an image into a grid of rows x cols sprites
+
+    Returns:
+        A list of dictionaries, each containing the row, column, and filename of the sprite.
+    """
     img = Image.open(io.BytesIO(image_bytes))
     width, height = img.size
     sprite_width = width // cols
@@ -81,7 +87,7 @@ def split_image(image_bytes, rows, cols, original_filename, user_id):
 
 
 @app.post("/upload")
-async def upload_image(image: UploadFile = File(...)):
+async def upload_image(image: UploadFile = File(...)) -> dict[str, int]:
     contents = await image.read()
     rows, cols = detect_grid(contents)
     return {"rows": rows, "cols": cols}
@@ -95,7 +101,13 @@ async def split_image_route(
     rows: int = Form(None),
     cols: int = Form(None),
     x_user_id: str = Header(None),
-):
+) -> dict[str, list[dict]]:
+    """
+    API endpoint that accepts an image file and splits it into a grid of rows x cols sprites.
+
+    Returns:
+        A dictionary of sprites, each containing the row, column, and filename of the sprite.
+    """
     if request.method == "OPTIONS":
         return {}  # Return an empty dict for OPTIONS requests
 
@@ -109,6 +121,9 @@ async def split_image_route(
 
 @app.get("/download")
 async def download_sprites(x_user_id: str = Header(...)):
+    """
+    Download all split images for a given user as a ZIP file.
+    """
     user_dir = os.path.join(UPLOAD_DIR, x_user_id)
     if not os.path.exists(user_dir):
         raise HTTPException(status_code=404, detail="No images found for this user")
@@ -137,9 +152,3 @@ async def cleanup_old_files():
                 os.remove(file_path)
             os.rmdir(user_dir)
     return {"message": "Cleanup completed"}
-
-
-if __name__ == "__main__":
-    import uvicorn
-
-    uvicorn.run(app, host="0.0.0.0", port=8000)
