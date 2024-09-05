@@ -25,6 +25,11 @@ app.add_middleware(
 )
 
 
+@app.get("/")
+async def root():
+    return {"message": "Image Splitter API is running"}
+
+
 @app.middleware("http")
 async def log_requests(request, call_next):
     logger.info(f"Request: {request.method} {request.url}")
