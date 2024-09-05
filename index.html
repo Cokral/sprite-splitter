@@ -158,32 +158,32 @@
             }
         }
 
-	async function splitImage() {
-	    if (!currentImage) return;
-	
-	    const formData = new FormData();
-	    formData.append('image', currentImage);
-	    formData.append('rows', document.getElementById('rows').value);
-	    formData.append('cols', document.getElementById('columns').value);
-	
-	    try {
-	        const response = await fetch(`${API_URL}/split`, {
-	            method: 'POST',
-	            headers: {
-	                'X-User-ID': userId,
-	            },
-	            body: formData,
-	            credentials: 'include',  // This line is important for CORS
-	        });
-	        if (!response.ok) {
-	            throw new Error(`HTTP error! status: ${response.status}`);
-	        }
-	        const data = await response.json();
-	        displayDownloadButton();
-	    } catch (error) {
-	        console.error('Error splitting image:', error);
-	    }
-	}
+        async function splitImage() {
+            if (!currentImage) return;
+
+            const formData = new FormData();
+            formData.append('image', currentImage);
+            formData.append('rows', document.getElementById('rows').value);
+            formData.append('cols', document.getElementById('columns').value);
+
+            try {
+                const response = await fetch(`${API_URL}/split`, { // This will result in the correct URL
+                    method: 'POST',
+                    headers: {
+                        'X-User-ID': userId,
+                    },
+                    body: formData,
+                });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                displayDownloadButton();
+            } catch (error) {
+                console.error('Error splitting image:', error);
+                alert('Error splitting image. Please try again later.');
+            }
+        }
 
         function displayDownloadButton() {
             const container = document.getElementById('sprites-container');
