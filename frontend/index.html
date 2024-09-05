@@ -173,6 +173,8 @@
                         'X-User-ID': userId,
                     },
                     body: formData,
+                    mode: 'cors',  // Explicitly set CORS mode
+                    credentials: 'include',
                 });
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
