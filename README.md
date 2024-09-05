@@ -7,7 +7,10 @@ Web app used to split a "sprite sheet" into individual sprites.
 Simple fastapi API that downloads / uploads the image(s) and splits according to the parameters.
 
 **roadmap**: 
-- [ ] deploy
+- [X] deploy
+- [ ] clean up fastAPI code
+- [ ] add limit rate to API
+- [ ] add better logging
 
 The python api is made using [uv](https://github.com/astral-sh/uv) as a python package and project manager.
 
@@ -25,7 +28,9 @@ Else, you can use docker. Consider using [just](https://github.com/casey/just) t
 Simple frontend made using a single html file.
 
 **roadmap**:
-- [ ] deploy
+- [X] deploy
+- [ ] remove call to /upload/
+- [ ] move position of download button
 
 The frontend can be launched by simply opening the `index.html` file ;)
 
