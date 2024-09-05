@@ -12,17 +12,6 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-FRONTEND_URL = [
-    "https://thomascoquereau.com/sprite-splitter",
-    "https://thomascoquereau.com",
-    "https://Cokral.github.io",
-    "https://Cokral.github.io/sprite-splitter",
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "http://localhost:5000",
-    "http://127.0.0.1:5000",
-    "https://sprite-splitter.onrender.com",
-]
 app = FastAPI()
 
 
@@ -37,7 +26,7 @@ async def log_requests(request, call_next):
 # Setup CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://thomascoquereau.com"],
+    allow_origins=["https://thomascoquereau.com"],  # TODO: Pass origins through environment variable
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*", "x-user-id"],  # Explicitly include x-user-id
@@ -149,6 +138,7 @@ async def download_sprites(x_user_id: str = Header(...)):
 # Optional: Add a cleanup route to delete old files (you might want to run this periodically)
 @app.post("/cleanup")
 async def cleanup_old_files():
+    # TODO: Run this periodically
     for user_id in os.listdir(UPLOAD_DIR):
         user_dir = os.path.join(UPLOAD_DIR, user_id)
         if os.path.isdir(user_dir):
