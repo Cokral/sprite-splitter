@@ -12,14 +12,13 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+FRONTEND_URL = "https://thomascoquereau.com/sprite-splitter/"
 app = FastAPI()
 
 # Setup CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "*"
-    ],  # For development, use ["http://localhost:YOUR_FRONTEND_PORT"] in production
+    allow_origins=[FRONTEND_URL],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
