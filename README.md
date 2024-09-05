@@ -11,6 +11,7 @@ Simple fastapi API that downloads / uploads the image(s) and splits according to
 - [ ] clean up fastAPI code
 - [ ] add limit rate to API
 - [ ] add better logging
+- [ ] only download non-empty sprites
 
 The python api is made using [uv](https://github.com/astral-sh/uv) as a python package and project manager.
 
