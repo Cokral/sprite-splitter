@@ -96,6 +96,11 @@ def split_image(
 
 
 @app.options("/split")
+async def options_split():
+    logging.info("In the options_split function")
+    return {}
+
+
 @app.post("/split")
 async def split_image_route(
     request: Request,
@@ -110,9 +115,7 @@ async def split_image_route(
     Returns:
         A dictionary of sprites, each containing the row, column, and filename of the sprite.
     """
-    if request.method == "OPTIONS":
-        return {}  # Return an empty dict for OPTIONS requests
-
+    logging.info("In the split_image_route function")
     if not image or rows is None or cols is None or not x_user_id:
         raise HTTPException(status_code=400, detail="Missing required fields")
 
