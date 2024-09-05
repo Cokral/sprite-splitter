@@ -171,9 +171,9 @@
 	            method: 'POST',
 	            headers: {
 	                'X-User-ID': userId,
-	                // Do not set 'Content-Type' here, let the browser set it automatically
 	            },
-	            body: formData
+	            body: formData,
+	            credentials: 'include',  // This line is important for CORS
 	        });
 	        if (!response.ok) {
 	            throw new Error(`HTTP error! status: ${response.status}`);
