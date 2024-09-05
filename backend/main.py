@@ -52,35 +52,38 @@ def split_image(
     Returns:
         A list of dictionaries, each containing the row, column, and filename of the sprite.
     """
-    img = Image.open(io.BytesIO(image_bytes))
-    width, height = img.size
-    sprite_width = width // cols
-    sprite_height = height // rows
+    try:
+        img = Image.open(io.BytesIO(image_bytes))
+        width, height = img.size
+        sprite_width = width // cols
+        sprite_height = height // rows
 
-    sprites = []
-    user_dir = os.path.join(UPLOAD_DIR, user_id)
-    os.makedirs(user_dir, exist_ok=True)
+        sprites = []
+        user_dir = os.path.join(UPLOAD_DIR, user_id)
+        os.makedirs(user_dir, exist_ok=True)
 
-    # Remove file extension from original filename
-    base_filename = os.path.splitext(original_filename)[0]
+        # Remove file extension from original filename
+        base_filename = os.path.splitext(original_filename)[0]
 
-    for i in range(rows):
-        for j in range(cols):
-            box = (
-                j * sprite_width,
-                i * sprite_height,
-                (j + 1) * sprite_width,
-                (i + 1) * sprite_height,
-            )
-            sprite = img.crop(box)
+        for i in range(rows):
+            for j in range(cols):
+                box = (
+                    j * sprite_width,
+                    i * sprite_height,
+                    (j + 1) * sprite_width,
+                    (i + 1) * sprite_height,
+                )
+                sprite = img.crop(box)
 
-            # Save sprite to disk
-            filename = f"{base_filename}_row{i+1}_col{j+1}.png"
-            filepath = os.path.join(user_dir, filename)
-            sprite.save(filepath)
+                # Save sprite to disk
+                filename = f"{base_filename}_row{i+1}_col{j+1}.png"
+                filepath = os.path.join(user_dir, filename)
+                sprite.save(filepath)
 
-            sprites.append({"row": i + 1, "col": j + 1, "filename": filename})
-
+                sprites.append({"row": i + 1, "col": j + 1, "filename": filename})
+    except Exception as e:
+        logging.error(f"Error splitting image: {e}")
+        raise HTTPException(status_code=400, detail="Error splitting image")
     return sprites
 
 

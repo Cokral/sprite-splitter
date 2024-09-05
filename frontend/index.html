@@ -109,22 +109,6 @@
                 img.src = event.target.result;
             }
             reader.readAsDataURL(file);
-
-            const formData = new FormData();
-            formData.append('image', file);
-
-            try {
-                const response = await fetch(`${API_URL}/upload`, {
-                    method: 'POST',
-                    body: formData
-                });
-                const data = await response.json();
-                document.getElementById('rows').value = data.rows;
-                document.getElementById('columns').value = data.cols;
-                updatePreview();
-            } catch (error) {
-                console.error('Error uploading image:', error);
-            }
         }
 
         function updatePreview() {
