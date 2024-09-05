@@ -25,20 +25,6 @@ FRONTEND_URL = [
 ]
 app = FastAPI()
 
-# Setup CORS
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=FRONTEND_URL,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-
-@app.get("/")
-async def root():
-    return {"message": "Image Splitter API is running"}
-
 
 @app.middleware("http")
 async def log_requests(request, call_next):
@@ -48,6 +34,20 @@ async def log_requests(request, call_next):
     logger.info(f"Response Status: {response.status_code}")
     return response
 
+# Setup CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["https://thomascoquereau.com"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*", "x-user-id"],  # Explicitly include x-user-id
+    expose_headers=["*"],
+)
+
+
+@app.get("/")
+async def root():
+    return {"message": "Image Splitter API is running"}
 
 # Create a directory to store split images
 UPLOAD_DIR = "split_images"
